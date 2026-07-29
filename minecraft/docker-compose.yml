@@ -1,0 +1,21 @@
+services:
+  mc-server:
+    image: itzg/minecraft-server:latest
+    container_name: paper-mc
+    environment:
+      EULA: "TRUE"
+      TYPE: "PAPER"
+      VERSION: "LATEST"
+      MEMORY: "10G"
+      USE_AIKAR_FLAGS: "true"
+      PLUGINS: |
+        https://download.geysermc.org/v2/projects/geyser/versions/latest/buil>
+        https://download.geysermc.org/v2/projects/floodgate/versions/latest/b>
+    ports:
+      - "25565:25565"
+      - "24454:24454/udp"
+      - "8125:8125"
+      - "19132:19132/udp"
+    volumes:
+      - ./data:/data
+    restart: unless-stopped
