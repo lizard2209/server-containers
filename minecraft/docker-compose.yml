@@ -4,6 +4,8 @@ services:
     container_name: paper-mc
     environment:
       EULA: "TRUE"
+      UID: 1000
+      GID: 1000
       TYPE: "PAPER"
       VERSION: "LATEST"
       MEMORY: "10G"

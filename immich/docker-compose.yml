@@ -1,0 +1,47 @@
+version: "3.8"
+
+services:
+  immich-server:
+    container_name: immich_server
+    image: ghcr.io/immich-app/immich-server:v3.1.0
+    volumes:
+      - /mnt/photostorage:/data
+    env_file:
+      - .env
+    ports:
+      - "2283:2283"
+    depends_on:
+      - redis
+      - database
+    restart: unless-stopped
+
+  immich-machine-learning:
+    container_name: immich_machine_learning
+    image: ghcr.io/immich-app/immich-machine-learning:v3.1.0
+    env_file:
+      - .env
+    volumes:
+      - model-cache:/cache
+      - /mnt/photostorage:/mnt/photostorage:ro
+    restart: unless-stopped
+
+  database:
+    container_name: immich_postgres
+    image: ghcr.io/immich-app/postgres:16-vectorchord0.4.3-pgvectors0.2.0
+    environment:
+      POSTGRES_PASSWORD: rootsecret
+      POSTGRES_USER: postgres
+      POSTGRES_DB: immich
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  redis:
+    container_name: immich_redis
+    image: redis:6.2-alpine
+    restart: unless-stopped
+
+volumes:
+  immich-data:
+  model-cache:
+  pgdata:

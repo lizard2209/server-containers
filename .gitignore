@@ -1,3 +1,5 @@
 */data/
 *.tar.gz
 *.env
+update-mc.sh
+update.log
